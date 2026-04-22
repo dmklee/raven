@@ -1,5 +1,5 @@
-# *RA*y-based Equi*V*ariant **Encoder *N*etwork
-Official code for "RAVEN: End-to-end Equivariant Robot Learning with RGB Images" paper accepted to ICLR'26.
+# RAVEN
+Official code for "[RAVEN: End-to-end Equivariant Robot Learning with RGB Images](https://openreview.net/pdf?id=z8BN7KyaPl)" paper accepted to ICLR'26.
 
 ## Setup
 1. Install the following dependencies:
