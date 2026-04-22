@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAVEN: End-to-end Equivariant Robot Learning with Images</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">RAVEN: End-to-End Equivariant Robot Learning with RGB Images</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://dmklee.github.io.com">David M Klee</a><sup>1,</sup>,
+			</span>
+            <span class="author-block">
+              <a href="https://bocehu.github.io/">Boce Hu</a><sup>1</sup>,
+			</span>
+            <span class="author-block">
+              <a href="https://andrewcole712.github.io/">Andrew Cole</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=pkkjUEUAAAAJ&hl=en">Heng Tian</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.dianwang.io/">Dian Wang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.khoury.northeastern.edu/people/robert-platt/">Robert Platt</a><sup>1, †</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.robinwalters.com/">Robin Walters</a><sup>1,†</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal Contribution,</span>
+            <span class="author-block"><sup>†</sup>Equal Advising</span>
+			<br>
+            <span class="author-block"><sup>1</sup>Northeastern University,</span>
+            <span class="author-block"><sup>2</sup>Stanford University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://openreview.net/pdf?id=z8BN7KyaPl"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/dmklee/raven"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+		  Recent work has shown that equivariant policy networks can achieve strong perfor-
+		  mance on robot manipulation tasks with limited human demonstrations. However,
+		  existing equivariant methods typically require structured inputs, such as 3D point
+		  clouds or top-down camera views, which prevents their use in low-cost setups or
+		  dynamic environments. In this work, we propose the first SE(3)-equivariant policy
+		  learning framework that operates with only RGB image observations. The key
+		  insight is to treat image-based data as collections of rays that, unlike 2D pixels,
+		  transform under 3D roto-translations. Extensive experiments in both simulation
+		  with diverse robot configurations and real-world settings demonstrate that our
+		  method consistently surpasses strong baselines in both performance and efficiency.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+	<pre><code>@inproceedings{kleeraven,
+  title={RAVEN: End-to-end Equivariant Robot Learning with RGB Cameras},
+  author={Klee, David and Hu, Boce and Cole, Andrew and Tian, Heng and Wang, Dian and Platt, Robert and Walters, Robin},
+  booktitle={The Fourteenth International Conference on Learning Representations}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website design was borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
