@@ -1,0 +1,132 @@
+defaults:
+  - _self_
+  - task: mimicgen_abs
+  - obs: agent_and_inhand
+
+use_wandb: True
+work_dir: ${hydra:runtime.cwd}
+output_dir: ${hydra:runtime.output_dir}
+
+method_name: raven
+
+#shape_meta: ${obs.shape_meta}
+exp_name: "default"
+
+task_name: stack_d1
+n_demo: 100
+horizon: &horizon 16
+n_obs_steps: 2
+n_action_steps: 8
+n_latency_steps: 0
+dataset_obs_steps: ${n_obs_steps}
+past_action_visible: False
+
+data:
+    _target_: uferl.data.dataset.RobomimicReplayImageDataset
+    dataset_path: ${work_dir}/data/robomimic/${task_name}_obs${task.abs_string}.hdf5
+    cache_path: ${work_dir}/data/robomimic/${task_name}${task.abs_string}_${obs.name}
+    num_demos: ${n_demo}
+    shape_meta: ${obs.shape_meta}
+    horizon: ${horizon}
+    pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
+    pad_after: ${eval:'${n_action_steps}-1'}
+    n_obs_steps: ${dataset_obs_steps}
+    abs_action: ${task.abs_action}
+    rotation_rep: 'rotation_6d'
+    use_legacy_normalizer: False
+    use_cache: True
+    seed: 42
+    val_ratio: 0.02
+
+policy:
+  _target_: uferl.policy.raven_tfm_policy.RavenFMPolicy_rel
+
+  shape_meta: ${obs.shape_meta}
+
+  horizon: ${horizon}
+  n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
+  n_obs_steps: ${n_obs_steps}
+  img_encoder:
+    _partial_: True
+    _target_: uferl.model.raven.layers.ResNet18
+    pretrained: True
+    use_groupnorm: True
+  enc_n_geoms: 128
+  enc_n_scalars: 64
+  enc_n_blocks: 2
+  enc_n_heads: 8
+  enc_adjust_attn_temp: False
+  enc_patch_dropout: 0.0
+  enc_attn_dropout: 0.0
+  enc_ff_dropout: 0.0
+  enc_proj_bias: True
+  add_gravity_vec: False
+  dec_n_geoms: 64
+  dec_n_scalars: 64
+  dec_n_blocks: 4
+  dec_n_heads: 8
+  dec_attn_dropout: 0.2
+  num_inference_steps: 10
+  diffusion_step_embed_dim: 128
+  loss_weights: 
+    xyz: 10.0
+    rot6d: 10.0
+    grip: 1.0
+
+  augmenter:
+    _target_: uferl.model.raven.augmentation.Augmenter
+    rot_aug_magn: [6.28, 6.28, 6.28]
+    trans_aug_magn: [0.05, 0.05, 0.05]
+    crop_shape: [76, 76]
+    img_rot_range: [-10, 10]
+    img_c4_rots: False
+
+ema:
+  _target_: uferl.model.diffpo.ema_model.EMAModel
+  update_after_step: 0
+  inv_gamma: 1.0
+  power: 0.75
+  min_value: 0.0
+  max_value: 0.9999
+
+
+dataloader:
+  _target_: torch.utils.data.DataLoader
+  batch_size: 128
+  num_workers: 4
+  shuffle: True
+  drop_last: True
+  pin_memory: True
+  persistent_workers: True
+
+training:
+  device: "cuda"
+  seed: 0
+  debug: False
+  resume: True
+  # optimization
+  num_epochs: ${eval:'int(30000 / ${n_demo})'}
+  # training loop control in epochs
+  eval_interval: ${eval:'int(1000 / ${n_demo})'}
+  save_interval: ${eval:'int(1000 / ${n_demo})'}
+  sample_interval: 5
+  lr_scheduler: cosine
+  lr_warmup_steps: 500
+  gradient_accumulate_every: 1
+
+logging:
+  entity: my-entity
+  project: raven_${task_name}
+  #resume: True
+  #mode: online
+  name: ${method_name}_demo${n_demo}
+  tags: ["${method_name}", "${task_name}", "${obs.name}"]
+  id: null
+  group: null
+
+optimizer:
+  _target_: torch.optim.AdamW
+  lr: 1.0e-4
+  betas: [0.95, 0.999]
+  eps: 1.0e-8
+  weight_decay: 1.0e-6

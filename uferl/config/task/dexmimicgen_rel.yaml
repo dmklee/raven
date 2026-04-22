@@ -1,0 +1,30 @@
+name: dexmimicgen_rel
+
+abs_action: &abs_action False
+abs_string: '' # alternative is _abs
+action_dim: 14
+n_arms: 2
+
+env_runner:
+  _target_: uferl.env_runner.robomimic_image_runner.RobomimicImageRunner
+  dataset_path: ${data.dataset_path}
+  shape_meta: ${obs.shape_meta}
+  # costs 1GB per env
+  n_train: 4
+  n_train_vis: 1
+  train_start_idx: 0
+  n_test: 50
+  n_test_vis: 2
+  test_start_seed: 100000
+  # use python's eval function as resolver, single-quoted string as argument
+  max_steps: ${get_max_steps:${task_name}}
+  n_obs_steps: ${n_obs_steps}
+  n_action_steps: ${n_action_steps}
+  render_obs_key: ${obs.render_obs_key}
+  fps: 10
+  crf: 22
+  past_action: False
+  abs_action: ${task.abs_action}
+  tqdm_interval_sec: 1.0
+  n_envs: 27
+
